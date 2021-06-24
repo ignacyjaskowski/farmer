@@ -2,7 +2,7 @@ function rozmnazanie (maly_pies: number, duzy_pies:number, konie: number, krowy:
     let wylosowana_kostka1 = kostka1[randint(0, 11)]
     let wylosowana_kostka2 = kostka2[randint(0, 11)]
 
-    serial.writeLine(wylosowana_kostka1 + " " + wylosowana_kostka2)
+    // serial.writeLine(wylosowana_kostka1 + " " + wylosowana_kostka2)
 
     if (wylosowana_kostka1 == 'wilk') {
        
@@ -16,7 +16,7 @@ function rozmnazanie (maly_pies: number, duzy_pies:number, konie: number, krowy:
                 'krowa':  0, 
                 'swinka': 0,
                 'owca': 0, 
-                'krolik': 0
+                'krolik':0
             }
         }
 
@@ -58,7 +58,7 @@ function rozmnazanie (maly_pies: number, duzy_pies:number, konie: number, krowy:
 }
 function wKrolikach (maly_pies: number, duzy_pies: number, konie: number, krowy: number, swinki: number, owce: number, kroliki: number) {
     let wynik = (kroliki + (((konie * 2 + (krowy + duzy_pies)) * 3 + swinki) * 2 + (owce + maly_pies)) * 6)
-    serial.writeLine("" + wynik)
+    return wynik;
 }
 function rozmnoz_jeden (zwierzeta: number, zwierzeta_na_kostkach: number) {
     if (zwierzeta_na_kostkach > 0) {
@@ -79,32 +79,39 @@ function toInt(b: Boolean){
     }
 }
 
-let zwierzeta = {'maly_pies': 4, 
-                 'duzy_pies': 2,
-                 'kon': 0,
-                 'krowa': 1,
-                 'swinka': 4,
-                 'owca': 6,
-                 'krolik':10 }
+let wyniki = 0
+let N = 100000
+for(let j = 0; j < N; j++) {
+    let zwierzeta = {'maly_pies': 0, 
+                    'duzy_pies': 0,
+                    'kon': 0,
+                    'krowa': 2,
+                    'swinka': 6,
+                    'owca': 6,
+                    'krolik': 12}
 
-serial.writeLine(zwierzeta['maly_pies'] + " " +
-        zwierzeta['duzy_pies'] + " " +
-        zwierzeta['kon'] + " " +
-        zwierzeta['krowa'] + " " + zwierzeta['swinka'] + " " + zwierzeta['owca'] + " " + zwierzeta['krolik'])
-for(let i = 0; i < 5; i++)  {
-    zwierzeta = rozmnazanie(
-        zwierzeta['maly_pies'],
-        zwierzeta['duzy_pies'], 
-        zwierzeta['kon'], 
-        zwierzeta['krowa'], zwierzeta['swinka'], zwierzeta['owca'], zwierzeta['krolik']
-    )
-    serial.writeLine(zwierzeta['maly_pies'] + " " +
-        zwierzeta['duzy_pies'] + " " +
-        zwierzeta['kon'] + " " +
-        zwierzeta['krowa'] + " " + zwierzeta['swinka'] + " " + zwierzeta['owca'] + " " + zwierzeta['krolik'])
+    // serial.writeLine(zwierzeta['maly_pies'] + " " +
+    //         zwierzeta['duzy_pies'] + " " +
+    //         zwierzeta['kon'] + " " +
+    //         zwierzeta['krowa'] + " " + zwierzeta['swinka'] + " " + zwierzeta['owca'] + " " + zwierzeta['krolik'])
 
-    wKrolikach(zwierzeta['maly_pies'],
-        zwierzeta['duzy_pies'], 
-        zwierzeta['kon'], 
-        zwierzeta['krowa'], zwierzeta['swinka'], zwierzeta['owca'], zwierzeta['krolik'])
+    for(let i = 0; i < 1; i++)  {
+        zwierzeta = rozmnazanie(
+            zwierzeta['maly_pies'],
+            zwierzeta['duzy_pies'], 
+            zwierzeta['kon'], 
+            zwierzeta['krowa'], zwierzeta['swinka'], zwierzeta['owca'], zwierzeta['krolik']
+        )
+        // serial.writeLine(zwierzeta['maly_pies'] + " " +
+        //     zwierzeta['duzy_pies'] + " " +
+        //     zwierzeta['kon'] + " " +
+        //     zwierzeta['krowa'] + " " + zwierzeta['swinka'] + " " + zwierzeta['owca'] + " " + zwierzeta['krolik'])
+
+        wyniki = wyniki + wKrolikach(zwierzeta['maly_pies'],
+            zwierzeta['duzy_pies'], 
+            zwierzeta['kon'], 
+            zwierzeta['krowa'], zwierzeta['swinka'], zwierzeta['owca'], zwierzeta['krolik'])
+    }
 }
+
+serial.writeLine("" + wyniki/N)
